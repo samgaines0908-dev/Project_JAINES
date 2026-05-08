@@ -151,8 +151,7 @@ def main():
             break
         else:
             print("Please enter a valid choice")
-    else:
-        print("Please enter a valid choice")
+    
 
 
 
