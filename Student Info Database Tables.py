@@ -14,7 +14,7 @@ def create_student_database_tables():
     cur.execute('''CREATE TABLE IF NOT EXISTS Departments (DepartmentID INTEGER PRIMARY KEY NOT NULL, 
                                                               DepartmentName TEXT)''')
     # Create the Students table
-    cur.execute('''CREATE TABLE IF NOT EXISTS Students (StudentID INTEGER NOT NULL, 
+    cur.execute('''CREATE TABLE IF NOT EXISTS Students (StudentID INTEGER PRIMARY KEY NOT NULL, 
                                                            StudentName TEXT, 
                                                            StudentAge INTEGER,
                                                            MajorID INTEGER, 
