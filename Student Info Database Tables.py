@@ -1,6 +1,6 @@
-# Programmers: Javan Graber and Samuel Gaines
-# Date: 5/7/26
-# Program #2: Student Info Database Tables
+# Programmer: Javan Graber with Samuel Gaines
+# Date: 5/8/26
+# Program #2: Student Info Database Tables Creation
 
 import sqlite3
 
@@ -16,7 +16,7 @@ def create_student_database_tables():
     # Create the Students table
     cur.execute('''CREATE TABLE IF NOT EXISTS Students (StudentID INTEGER PRIMARY KEY NOT NULL, 
                                                            StudentName TEXT, 
-                                                           StudentAge INTEGER,
+                                                           StudentPhone INTEGER,
                                                            MajorID INTEGER, 
                                                            DepartmentID INTEGER, 
                                                            FOREIGN KEY (MajorID) REFERENCES 
@@ -25,5 +25,5 @@ def create_student_database_tables():
                                                                Departments (DepartmentID))''')
     conn.commit()
     conn.close()
-# Call the function
+
 create_student_database_tables()
