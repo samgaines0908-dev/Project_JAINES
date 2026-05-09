@@ -1,5 +1,5 @@
 # Programmer: Javan Graber with Samuel Gaines
-# Date: 5/8/26
+# Date: 5/7/26
 # Program #2: Student Info Database Tables Creation
 
 import sqlite3
@@ -8,13 +8,13 @@ def create_student_database_tables():
     conn = sqlite3.connect('students_info.db')
     cur = conn.cursor()
     # Create the Majors table
-    cur.execute('''CREATE TABLE IF NOT EXISTS Majors (MajorID INTEGER PRIMARY KEY NOT NULL, 
+    cur.execute('''CREATE TABLE IF NOT EXISTS Majors (MajorID INTEGER PRIMARY KEY AUTOINCREMENT, 
                                                          MajorName TEXT)''')
     # Create the Departments table
-    cur.execute('''CREATE TABLE IF NOT EXISTS Departments (DepartmentID INTEGER PRIMARY KEY NOT NULL, 
+    cur.execute('''CREATE TABLE IF NOT EXISTS Departments (DepartmentID INTEGER PRIMARY KEY AUTOINCREMENT, 
                                                               DepartmentName TEXT)''')
     # Create the Students table
-    cur.execute('''CREATE TABLE IF NOT EXISTS Students (StudentID INTEGER PRIMARY KEY NOT NULL, 
+    cur.execute('''CREATE TABLE IF NOT EXISTS Students (StudentID INTEGER PRIMARY KEY AUTOINCREMENT, 
                                                            StudentName TEXT, 
                                                            StudentPhone INTEGER,
                                                            MajorID INTEGER, 
