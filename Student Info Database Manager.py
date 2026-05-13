@@ -1,5 +1,5 @@
 # Programmers: Samuel Gaines and Javan Graber
-# Date: 5/11/26
+# Date: 5/13/26
 # Program: Student Info Database Manager
 
 import sqlite3
