@@ -592,7 +592,7 @@ def main():
             choice = int(input("Hello, please enter your choice of action (the number): "))
         except ValueError:
             print("Sorry, your choice of action was invalid (it must be a valid NUMBER)")
-
+            choice = 0
 
         if choice == 1:
             add_major()
