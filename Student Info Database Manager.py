@@ -56,10 +56,10 @@ def add_department():
 def add_student():
     print("3. Add Student")
     conn = None
-    new_student_name = input("Enter the name of the new student: ")
-    new_student_phone = input("Enter the phone number of the new student: ")
-    new_student_major = input("Enter the Major for the new student (It must be an already existing): ")
-    new_student_department = input("Enter the Department for the new student (It must be already existing): ")
+    new_student_name = input("Enter the name of the new Student: ")
+    new_student_phone = input("Enter the phone number of the new Student: ")
+    new_student_major = input("Enter the Major for the new Student (It must be an already existing): ")
+    new_student_department = input("Enter the Department for the new Student (It must be already existing): ")
 
     try:
         conn = sqlite3.connect("students_info.db")
@@ -354,10 +354,10 @@ def edit_student():
                 major_names_list = []
                 for value in retrieved_major_names:
                     major_names_list.append(value[0])
-                print(f"Here are the major options: ")
+                print(f"Here are the Major options: ")
                 for value in major_names_list:
                     print(f"Major Name: {value}")
-                major_choice = input("What is the new major for this student?: ")
+                major_choice = input("What is the new Major for this Student?: ")
                 # If the new Major exists, get the ID and change the Student Major to the new one
                 if major_choice in major_names_list:
                     cur.execute('SELECT MajorID FROM Majors WHERE lower(MajorName)==?''',
@@ -376,7 +376,7 @@ def edit_student():
                 # Prepare for problems
                 else:
                     print("That Major does not exist yet. You will have to create it first.")
-                    print("Make sure spelled the major EXACTLY the same (do not forget capitals)")
+                    print("Make sure spelled the Major EXACTLY the same (do not forget capitals)")
             # Change the Department
             elif selection == 4:
                 conn = sqlite3.connect('students_info.db')
@@ -388,11 +388,11 @@ def edit_student():
                 department_names_list = []
                 for value in retrieved_department_names:
                     department_names_list.append(value[0])
-                print(f"Here are the department options: ")
+                print(f"Here are the Department options: ")
                 for value in department_names_list:
                     print(f"Department Name: {value}")
 
-                department_choice = input("What is the new department for this student?: ")
+                department_choice = input("What is the new Department for this Student?: ")
                 # If the new Department exists, get the ID and update the Student's Department
                 if department_choice in department_names_list:
                     cur.execute('SELECT DepartmentID FROM Departments WHERE lower(DepartmentName)==?''',
@@ -412,7 +412,7 @@ def edit_student():
                 # Prepare for a problem
                 else:
                     print("That Department does not exist yet. You will have to create it first.")
-                    print("Make sure spelled the major EXACTLY the same (do not forget capitals)")
+                    print("Make sure spelled the Department EXACTLY the same (do not forget capitals)")
             conn.commit()
         # Prepare for exceptions
         except sqlite3.Error as err:
@@ -457,8 +457,8 @@ def delete_major():
             selection_major_id = retrieved_major_id_list[0]
             # Check to see if the selected Major is currently used by a Student. If not, delete it.
             if selection_major_id in major_id_list:
-                print("You cannot delete this Major because a student is currently in it!"
-                      " You must change the student or delete the student first.")
+                print("You cannot delete this Major because a Student is currently in it!"
+                      " You must change the Student or delete the Student first.")
             elif selection_major_id not in major_id_list:
                 cur.execute('''DELETE FROM Majors
                         Where lower(MajorName)=?''',
@@ -506,8 +506,8 @@ def delete_department():
             selection_department_id = retrieved_department_id_list[0]
             # Check to see if the Department ID exists in the Students table. If it does not, delete it.
             if selection_department_id in department_id_list:
-                print("You cannot delete this Department because a student is currently in it!"
-                      " You must change the student or delete the student first.")
+                print("You cannot delete this Department because a Student is currently in it!"
+                      " You must change the Student or delete the Student first.")
             elif selection_department_id not in department_id_list:
                 cur.execute('''DELETE FROM Departments
                         Where lower(DepartmentName)=?''',
