@@ -80,7 +80,7 @@ def add_student():
             if new_student_department == row[0]:
                 found_department = 1
         if found_major == 0:
-            print("That Major does not exist yet. You will have to create it first.")
+            print("That Major does not exist yet (or you spelled it wrong or without capitals). You will have to create it first.")
         # If the Major does exist, get the ID that references it and insert it in a list
         elif found_major == 1:
             cur.execute('SELECT MajorID FROM Majors WHERE lower(MajorName)=?',
@@ -92,7 +92,7 @@ def add_student():
             # Create a variable that references it
             major_id = major_id_list[0]
             if found_department == 0:
-                print("That Department does not exist yet. You will have to create it first.")
+                print("That Department does not exist yet (or you spelled it wrong or without capitals). You will have to create it first.")
             # If the Department does exist, get the ID that references it and insert it in a list
             elif found_department == 1:
                 cur.execute('SELECT DepartmentID FROM Departments WHERE lower(DepartmentName)=?',
@@ -188,7 +188,7 @@ def view_student():
         conn = sqlite3.connect('students_info.db')
         cur = conn.cursor()
         cur.execute('PRAGMA foreign_keys = ON')
-        # Get the information from that student, show if it was found, and insert it in a list
+        # Get the information from that Student, show if it was found, and insert it in a list
         cur.execute('''SELECT StudentName, StudentPhone, MajorID, DepartmentID FROM Students 
                                WHERE lower(StudentName) ==?''',
                     (student_name.lower(),))
@@ -201,7 +201,7 @@ def view_student():
             for value in retrieved_student:
                 retrieved_student_list.append(value)
             student_info = retrieved_student_list[0]
-            # Establish the student name and phone number
+            # Establish the Student name and phone number
             student_name = student_info[0]
             student_phone = student_info[1]
             # Establish the Major ID and get the name for the Major it references by inserting it in a list
@@ -303,10 +303,10 @@ def edit_department():
 def edit_student():
     conn = None
     print("9. Edit Student")
-    # Call the read function to ensure the student exists
+    # Call the read function to ensure the Student exists
     print("Let's first make sure your Student exists by finding the Student")
     view_student()
-    student_to_update = input("Enter the student you want to edit (or type n to stop): ")
+    student_to_update = input("Enter the Student you want to edit (or type n to stop): ")
     if student_to_update != 'n' and 'N':
         # Display the possible options to update
         print("1. Change Name")
@@ -393,7 +393,7 @@ def edit_student():
                     print(f"Department Name: {value}")
 
                 department_choice = input("What is the new department for this student?: ")
-                # If the new department exists, get the ID and update the Student's Department
+                # If the new Department exists, get the ID and update the Student's Department
                 if department_choice in department_names_list:
                     cur.execute('SELECT DepartmentID FROM Departments WHERE lower(DepartmentName)==?''',
                                 (department_choice.lower(),))
@@ -412,7 +412,7 @@ def edit_student():
                 # Prepare for a problem
                 else:
                     print("That Department does not exist yet. You will have to create it first.")
-
+                    print("Make sure spelled the major EXACTLY the same (do not forget capitals)")
             conn.commit()
         # Prepare for exceptions
         except sqlite3.Error as err:
@@ -455,7 +455,7 @@ def delete_major():
                 retrieved_major_id_list.append(value)
             # Isolate the value
             selection_major_id = retrieved_major_id_list[0]
-            # Check to see if the selected major is currently used by a student. If not, delete it.
+            # Check to see if the selected Major is currently used by a Student. If not, delete it.
             if selection_major_id in major_id_list:
                 print("You cannot delete this Major because a student is currently in it!"
                       " You must change the student or delete the student first.")
@@ -469,8 +469,7 @@ def delete_major():
         except sqlite3.Error as err:
             print("Database Error", err)
         except:
-            print("Error has occurred. Perhaps make sure that the major to delete is spelled correctly")
-            print("WITH CAPITAL LETTERS. If it is not the exact same, it is not the correct major.")
+            print("Error has occurred. Perhaps make sure that the Major to delete is spelled correctly")
         finally:
             if conn is not None:
                 conn.close()
@@ -496,16 +495,16 @@ def delete_department():
             department_id_list = []
             for value in retrieved_department_ids:
                 department_id_list.append(value[0])
-            # Get the department ID for the selection and insert it into a list
+            # Get the Department ID for the selection and insert it into a list
             cur.execute('SELECT DepartmentID FROM Departments WHERE lower(DepartmentName)=?',
                         (selected_department.lower(),))
             retrieved_department_id = cur.fetchone()
             retrieved_department_id_list = []
             for value in retrieved_department_id:
                 retrieved_department_id_list.append(value)
-            # Make a value reference the value in the department ID list
+            # Make a value reference the value in the Department ID list
             selection_department_id = retrieved_department_id_list[0]
-            # Check to see if the department ID exists in the Students table. If it does not, delete it.
+            # Check to see if the Department ID exists in the Students table. If it does not, delete it.
             if selection_department_id in department_id_list:
                 print("You cannot delete this Department because a student is currently in it!"
                       " You must change the student or delete the student first.")
@@ -521,8 +520,7 @@ def delete_department():
         except sqlite3.Error as err:
             print("Database Error", err)
         except:
-            print("Error has occurred. Perhaps make sure that the major to delete is spelled correctly")
-            print("WITH CAPITAL LETTERS. If it is not the exact same, it is not the correct major.")
+            print("Error has occurred. Perhaps make sure that the Department to delete is spelled correctly")
         finally:
             if conn is not None:
                 conn.close()
@@ -531,14 +529,14 @@ def delete_department():
 def delete_student():
     conn = None
     print("12. Delete Student")
-    # Call the read function to ensure the existence of the Department
+    # Call the read function to ensure the existence of the Student
     print("Let's first make sure your Student exists by finding the Student")
     view_student()
     selected_student = input("Enter the name of the Student you want to delete (or type n and "
                              "type n again for the next question): ")
     sure = input("Are you sure you want to delete this Student? (y/n): ")
     if sure == "y" or sure == "Y":
-        # Delete the student
+        # Delete the Student
         try:
             conn = sqlite3.connect('students_info.db')
             cur = conn.cursor()
