@@ -81,7 +81,7 @@ def add_student():
                 found_department = 1
         if found_major == 0:
             print("That Major does not exist yet (or you spelled it wrong or without capitals). You will have to create it first.")
-        # If the Major does exist, get the ID that references it and insert it in a list
+        # If the Major does exist, get the ID that references it and insert it into a list
         elif found_major == 1:
             cur.execute('SELECT MajorID FROM Majors WHERE lower(MajorName)=?',
                         (new_student_major.lower(),))
@@ -93,7 +93,7 @@ def add_student():
             major_id = major_id_list[0]
             if found_department == 0:
                 print("That Department does not exist yet (or you spelled it wrong or without capitals). You will have to create it first.")
-            # If the Department does exist, get the ID that references it and insert it in a list
+            # If the Department does exist, get the ID that references it and insert it into a list
             elif found_department == 1:
                 cur.execute('SELECT DepartmentID FROM Departments WHERE lower(DepartmentName)=?',
                             (new_student_department.lower(),))
@@ -188,7 +188,7 @@ def view_student():
         conn = sqlite3.connect('students_info.db')
         cur = conn.cursor()
         cur.execute('PRAGMA foreign_keys = ON')
-        # Get the information from that Student, show if it was found, and insert it in a list
+        # Get the information from that Student, show if it was found, and insert it into a list
         cur.execute('''SELECT StudentName, StudentPhone, MajorID, DepartmentID FROM Students 
                                WHERE lower(StudentName) ==?''',
                     (student_name.lower(),))
@@ -204,7 +204,7 @@ def view_student():
             # Establish the Student name and phone number
             student_name = student_info[0]
             student_phone = student_info[1]
-            # Establish the Major ID and get the name for the Major it references by inserting it in a list
+            # Establish the Major ID and get the name for the Major it references by inserting it into a list
             major_id = student_info[2]
             cur.execute('SELECT MajorName FROM Majors WHERE MajorID=?', (major_id,))
             retrieved_major_name = cur.fetchone()
@@ -212,7 +212,7 @@ def view_student():
             for value in retrieved_major_name:
                 retrieved_major_name_list.append(value)
             major_name = retrieved_major_name_list[0]
-            # Establish the Department ID and get the name for the Department it references by inserting it in a list
+            # Establish the Department ID and get the name for the Department it references by inserting it into a list
             department_id = student_info[3]
             cur.execute('SELECT DepartmentName FROM Departments WHERE DepartmentID=?',
                         (department_id,))
@@ -397,7 +397,7 @@ def edit_student():
                 if department_choice in department_names_list:
                     cur.execute('SELECT DepartmentID FROM Departments WHERE lower(DepartmentName)==?''',
                                 (department_choice.lower(),))
-                    # Get the new department in a list to isolate it
+                    # Get the new department into a list to isolate it
                     retrieved_department_id = cur.fetchone()
                     department_id_list = []
                     for value in retrieved_department_id:
@@ -577,7 +577,7 @@ def view_all():
             conn = sqlite3.connect('students_info.db')
             cur = conn.cursor()
             cur.execute('PRAGMA foreign_keys = ON')
-            # Get the information from the Student and insert it in a list
+            # Get the information from the Student and insert it into a list
             cur.execute('''SELECT StudentName, StudentPhone, MajorID, DepartmentID FROM Students 
                                    WHERE lower(StudentName) ==?''',
                         (student_name.lower(),))
@@ -589,7 +589,7 @@ def view_all():
             # Establish the Student name and phone number
             student_name = student_info[0]
             student_phone = student_info[1]
-            # Establish the Major ID and get the name for the Major it references by inserting it in a list
+            # Establish the Major ID and get the name for the Major it references by inserting it into a list
             major_id = student_info[2]
             cur.execute('SELECT MajorName FROM Majors WHERE MajorID=?', (major_id,))
             retrieved_major_name = cur.fetchone()
@@ -597,7 +597,7 @@ def view_all():
             for value in retrieved_major_name:
                 retrieved_major_name_list.append(value)
             major_name = retrieved_major_name_list[0]
-            # Establish the Department ID and get the name for the Department it references by inserting it in a list
+            # Establish the Department ID and get the name for the Department it references by inserting it into a list
             department_id = student_info[3]
             cur.execute('SELECT DepartmentName FROM Departments WHERE DepartmentID=?',
                             (department_id,))
