@@ -644,8 +644,9 @@ def view_all():
 
 # Section for displaying the menu
 def display_menu():
+    print("***********************")
     print("Student Info Database Manager")
-    print("-------------------")
+    print("***********************")
     print("1. Add Major")
     print("2. Add Department")
     print("3. Add Student")
