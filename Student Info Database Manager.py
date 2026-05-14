@@ -662,7 +662,7 @@ def display_menu():
     print("11. Delete Department")
     print("12. Delete Student")
     print("-------------------")
-    print("13. View All
+    print("13. View All")
     print("14. Exit")
 
 # Section for getting the choice and calling the required function
