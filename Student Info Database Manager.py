@@ -1,5 +1,5 @@
 # Programmers: Samuel Gaines and Javan Graber
-# Date: 5/13/26
+# Date: 5/14/26
 # Program: Student Info Database Manager
 
 import sqlite3
@@ -557,7 +557,90 @@ def delete_student():
             if conn is not None:
                 conn.close()
 
+# Section for viewing all information
+def view_all():
+    conn = None
+    try:
+        conn = sqlite3.connect('students_info.db')
+        cur = conn.cursor()
+        cur.execute('PRAGMA foreign_keys = ON')
+        cur.execute('''SELECT StudentName FROM Students''')
+        # Get the names and insert them into a list
+        retrieved_student_name = cur.fetchall()
+        retrieved_student_list = []
+        for value in retrieved_student_name:
+            retrieved_student_list.append(value[0])
+        # Print all Student information by going through each Student name
+        print("-----------------")
+        print('Here are the current Students with their information')
+        for student_name in retrieved_student_list:
+            conn = sqlite3.connect('students_info.db')
+            cur = conn.cursor()
+            cur.execute('PRAGMA foreign_keys = ON')
+            # Get the information from the Student and insert it in a list
+            cur.execute('''SELECT StudentName, StudentPhone, MajorID, DepartmentID FROM Students 
+                                   WHERE lower(StudentName) ==?''',
+                        (student_name.lower(),))
+            retrieved_student = cur.fetchall()
+            retrieved_student_list = []
+            for value in retrieved_student:
+                retrieved_student_list.append(value)
+            student_info = retrieved_student_list[0]
+            # Establish the Student name and phone number
+            student_name = student_info[0]
+            student_phone = student_info[1]
+            # Establish the Major ID and get the name for the Major it references by inserting it in a list
+            major_id = student_info[2]
+            cur.execute('SELECT MajorName FROM Majors WHERE MajorID=?', (major_id,))
+            retrieved_major_name = cur.fetchone()
+            retrieved_major_name_list = []
+            for value in retrieved_major_name:
+                retrieved_major_name_list.append(value)
+            major_name = retrieved_major_name_list[0]
+            # Establish the Department ID and get the name for the Department it references by inserting it in a list
+            department_id = student_info[3]
+            cur.execute('SELECT DepartmentName FROM Departments WHERE DepartmentID=?',
+                            (department_id,))
+            retrieved_department_name = cur.fetchone()
+            retrieved_department_name_list = []
+            for value in retrieved_department_name:
+                retrieved_department_name_list.append(value)
+            department_name = retrieved_department_name_list[0]
+            # Print all the Student information
+            print(f"Student Name: {student_name}   Phone: {student_phone}   "
+                    f" Major: {major_name} (#ID: {major_id})   Department: {department_name} (#ID: {department_id})")
 
+        # Print all the Major information by using a list
+        cur.execute('SELECT MajorName FROM Majors')
+        retrieved_major_names = cur.fetchall()
+        major_names_list = []
+        for value in retrieved_major_names:
+            major_names_list.append(value[0])
+        print("-----------------")
+        print(f"Here are the Major options: ")
+        for value in major_names_list:
+            print(f"Major Name: {value}")
+
+        # Display all the Department information by using a list
+        print("-----------------")
+        cur.execute('SELECT DepartmentName FROM Departments')
+        retrieved_department_names = cur.fetchall()
+        department_names_list = []
+        for value in retrieved_department_names:
+            department_names_list.append(value[0])
+        print(f"Here are the Department options: ")
+        for value in department_names_list:
+            print(f"Department Name: {value}")
+
+    # Prepare for any exceptions
+    except sqlite3.Error as err:
+        print("Database Error", err)
+    except:
+        print("Error has occurred. Make sure you enter valid information!")
+
+    finally:
+        if conn is not None:
+            conn.close()
 
 # Section for displaying the menu
 def display_menu():
@@ -579,12 +662,13 @@ def display_menu():
     print("11. Delete Department")
     print("12. Delete Student")
     print("-------------------")
-    print("13. Exit")
+    print("13. View All
+    print("14. Exit")
 
 # Section for getting the choice and calling the required function
 def main():
     choice = 0
-    while choice != 13:
+    while choice != 14:
         # Display the options
         display_menu()
 
@@ -631,6 +715,9 @@ def main():
             delete_student()
 
         elif choice == 13:
+            view_all()
+
+        elif choice == 14:
             print("Thank you for using the JAINES Student Info Database Manager")
 
         else:
